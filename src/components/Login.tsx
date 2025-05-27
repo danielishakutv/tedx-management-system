@@ -1,9 +1,11 @@
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, User, Lock } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { demoCredentials } from '@/services/ticketService';
 import { useToast } from '@/hooks/use-toast';
 
 interface LoginProps {
@@ -21,115 +23,127 @@ const Login = ({ onLogin }: LoginProps) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate authentication
-    if (email && password) {
-      setTimeout(() => {
+    // Simulate login delay
+    setTimeout(() => {
+      if (email === demoCredentials.email && password === demoCredentials.password) {
         toast({
-          title: "Welcome to TEDxYola!",
-          description: "Successfully signed in to Registration Desk.",
+          title: "Login Successful",
+          description: `Welcome back, ${demoCredentials.name}!`,
         });
         onLogin();
-        setIsLoading(false);
-      }, 1000);
-    } else {
-      toast({
-        title: "Authentication Failed",
-        description: "Please enter both email and password.",
-        variant: "destructive",
-      });
+      } else {
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or password. Please try again.",
+          variant: "destructive",
+        });
+      }
       setIsLoading(false);
-    }
+    }, 1000);
+  };
+
+  const fillDemoCredentials = () => {
+    setEmail(demoCredentials.email);
+    setPassword(demoCredentials.password);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-red-50 dark:from-gray-900 dark:via-gray-800 dark:to-red-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* TEDx Logo and Header */}
+        {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-red-600 to-red-700 rounded-xl shadow-lg mb-4">
-            <span className="text-white font-bold text-2xl">TEDx</span>
+          <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-xl mx-auto mb-4">
+            <span className="text-white font-bold text-xl">TEDx</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome to TEDxYola
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Registration Desk Portal
+            Registration Desk Officer Portal
           </p>
         </div>
 
-        {/* Login Card */}
-        <Card className="shadow-xl border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center text-gray-900 dark:text-white">
-              Sign In
-            </CardTitle>
-            <CardDescription className="text-center text-gray-600 dark:text-gray-300">
-              Enter your credentials to access the registration system
+        {/* Login Form */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Sign In</CardTitle>
+            <CardDescription>
+              Enter your credentials to access the registration desk
             </CardDescription>
           </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
+                    id="email"
                     type="email"
-                    placeholder="Email address"
+                    placeholder="officer@tedxyola.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 h-12 border-gray-200 dark:border-gray-600 focus:border-red-500 dark:focus:border-red-400"
+                    className="pl-10"
                     required
                   />
                 </div>
               </div>
+
               <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
+                    id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 border-gray-200 dark:border-gray-600 focus:border-red-500 dark:focus:border-red-400"
+                    className="pl-10 pr-10"
                     required
                   />
-                  <button
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-1 top-1 h-8 w-8 p-0"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5" />
+                      <EyeOff className="h-4 w-4" />
                     ) : (
-                      <Eye className="h-5 w-5" />
+                      <Eye className="h-4 w-4" />
                     )}
-                  </button>
+                  </Button>
                 </div>
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button
-                type="submit"
-                className="w-full h-12 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold transition-all duration-200"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Signing In...</span>
-                  </div>
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
 
-        {/* Footer */}
-        <div className="text-center mt-6 text-sm text-gray-500 dark:text-gray-400">
-          TEDxYola Registration Desk v1.0
-        </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
+
+            {/* Demo Credentials Helper */}
+            <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+              <h3 className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
+                Demo Credentials
+              </h3>
+              <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                <p><strong>Email:</strong> {demoCredentials.email}</p>
+                <p><strong>Password:</strong> {demoCredentials.password}</p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={fillDemoCredentials}
+                className="mt-2 text-blue-700 border-blue-300 hover:bg-blue-100 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-900"
+              >
+                Use Demo Credentials
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

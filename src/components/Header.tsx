@@ -3,6 +3,7 @@ import React from 'react';
 import { Moon, Sun, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
+import { demoCredentials } from '@/services/ticketService';
 
 interface HeaderProps {
   onLogout: () => void;
@@ -31,8 +32,18 @@ const Header = ({ onLogout }: HeaderProps) => {
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-3">
+          {/* User Info and Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Officer Name */}
+            <div className="hidden sm:block">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Welcome back,
+              </p>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">
+                {demoCredentials.name}
+              </p>
+            </div>
+
             {/* Theme Toggle */}
             <Button
               variant="ghost"

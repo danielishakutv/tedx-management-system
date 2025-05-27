@@ -2,6 +2,7 @@
 import React from 'react';
 import { Users, UserCheck, Calendar, BarChart3 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import TicketVerification from './TicketVerification';
 
 const Dashboard = () => {
   const stats = [
@@ -71,63 +72,8 @@ const Dashboard = () => {
         })}
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl text-gray-900 dark:text-white">
-              Quick Check-In
-            </CardTitle>
-            <CardDescription>
-              Scan QR codes or search for attendees to check them in
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-8 text-center">
-              <UserCheck className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-300">
-                Check-in functionality will be available soon
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl text-gray-900 dark:text-white">
-              Recent Activity
-            </CardTitle>
-            <CardDescription>
-              Latest registration and check-in activities
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-900 dark:text-white">John Doe checked in</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">2 minutes ago</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-900 dark:text-white">Jane Smith registered</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">5 minutes ago</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm text-gray-900 dark:text-white">Mike Johnson checked in</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">8 minutes ago</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Ticket Verification Section */}
+      <TicketVerification />
     </div>
   );
 };
