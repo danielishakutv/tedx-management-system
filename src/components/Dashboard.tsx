@@ -1,10 +1,14 @@
 
-import React from 'react';
-import { Users, UserCheck, Calendar, BarChart3 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users, UserCheck, Calendar, BarChart3, List } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import TicketVerification from './TicketVerification';
+import TicketList from './TicketList';
 
 const Dashboard = () => {
+  const [activeView, setActiveView] = useState<'verification' | 'list'>('verification');
+
   const stats = [
     {
       title: "Total Registered",
@@ -72,8 +76,30 @@ const Dashboard = () => {
         })}
       </div>
 
-      {/* Ticket Verification Section */}
-      <TicketVerification />
+      {/* Navigation Tabs */}
+      <div className="mb-6">
+        <div className="flex space-x-2 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+          <Button
+            variant={activeView === 'verification' ? 'default' : 'ghost'}
+            onClick={() => setActiveView('verification')}
+            className="flex items-center gap-2"
+          >
+            <UserCheck className="h-4 w-4" />
+            Ticket Verification
+          </Button>
+          <Button
+            variant={activeView === 'list' ? 'default' : 'ghost'}
+            onClick={() => setActiveView('list')}
+            className="flex items-center gap-2"
+          >
+            <List className="h-4 w-4" />
+            All Tickets
+          </Button>
+        </div>
+      </div>
+
+      {/* Content Area */}
+      {activeView === 'verification' ? <TicketVerification /> : <TicketList />}
     </div>
   );
 };
